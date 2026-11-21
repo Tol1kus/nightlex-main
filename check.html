@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
-<meta name="theme-color" content="#F2EADB">
+<meta name="theme-color" content="#111013">
 <meta name="robots" content="noindex">
 <title>Nightlex — Sprogtjek</title>
 <!-- Сторінка перевірки для носіїв мови (15.11.2026). Носій не вчиться, а перевіряє: «Korrekt / Unaturligt / Ret».
@@ -16,7 +16,7 @@
 @font-face{font-family:'Golos Text';font-weight:400 800;font-display:swap;src:url(fonts/golos-text-cyrillic.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
 @font-face{font-family:'Unbounded';font-weight:600 800;font-display:swap;src:url(fonts/unbounded-latin.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
 /* світла «пісочна» тема (прохання користувача): теплий бежевий фон, картки кольору вершків, кнопка — пісок */
-:root{color-scheme:light;--bg:#F2EADB;--card:#FFFBF3;--card2:#F6EEDF;--line:#E2D4BB;--ink:#2B241A;--mut:#76695A;--acc:#D9B66C;--acc-ink:#2B241A;--ok:#2F7A33;--bad:#B4362F;--fix:#94600A;--blue:#3E569E}
+:root{color-scheme:dark;--bg:#19181B;--card:#2B2A2F;--card2:#35333A;--line:#3D3A41;--ink:#FBF9F6;--mut:#B9B2BA;--acc:#FFA5B8;--acc-ink:#19181B;--ok:#7BD88F;--bad:#FF8A8A;--fix:#F2C14E;--blue:#9DB4FF}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--ink)}
 body{font:16px/1.5 'Golos Text',-apple-system,system-ui,sans-serif;-webkit-text-size-adjust:100%}
@@ -79,8 +79,9 @@ input.t:focus,textarea.t:focus{outline:none;border-color:var(--acc)}
 .center{margin:auto 0}
 @media (prefers-reduced-motion:reduce){.toast{transition:none}}
 /* фон — градієнт від темнішого піску вгорі до світлішого внизу (нерухомий шар позаду вмісту) */
-html{background:var(--bg)}body{background:transparent!important}
-body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#E3D3B6 0%,var(--bg) 42%,#FCF8F1 100%)}
+.hand{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:12px;width:100%;margin-top:10px;padding:14px 16px;border-radius:16px;border:1.5px dashed var(--acc);color:var(--ink);font-weight:700;font-size:16px;line-height:1.3;background:rgba(255,165,184,.08)}.hand .hi{font-size:24px;flex:none}.hand:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+html{background:#111013}body{background:transparent!important}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(180deg,#111013 0%,#19181B 42%,#4D3E45 100%)}
 </style>
 </head>
 <body>
@@ -94,20 +95,24 @@ const UI={
   name:'Dit navn',namePh:'fx Mette',level:'Niveau',kind:'Hvad vil du tjekke?',start:'Start',cont:'Fortsæt',send:'Send dine svar',
   q:'Lyder det her som naturligt dansk?',ok:'Korrekt',bad:'Unaturligt',fix:'Ret',yours:'Din version',comment:'Kommentar (valgfri)',why:'Hvad er galt? (valgfri)',
   save:'Gem og næste',skip:'Spring over',back:'Forrige',gloss:'Engelsk',done:'tjekket',of:'af',
-  k:{all:'Alle',w:'Ord',s:'Sætninger',d:'Dialoger',t:'Tekster',g:'Grammatik'},kl:{w:'Ord',s:'Sætning',d:'Dialog',t:'Tekst',g:'Grammatik'},word:'ord',
+  k:{all:'Alle',w:'Ord',s:'Sætninger',d:'Dialoger',t:'Tekster',g:'Grammatik',r:'Regler'},kl:{w:'Ord',s:'Sætning',d:'Dialog',t:'Tekst',g:'Grammatik',r:'Regel (forklaring på engelsk — er den rigtig?)'},word:'ord',
   tags:['Grammatik','Ordvalg','Stavning','Udtale','Oversættelse'],
   sendT:'Send dine svar',sendI:'Svarene ligger kun på denne enhed. Send filen til den, der bad dig om hjælp.',file:'Hent fil',share:'Del',copy:'Kopiér',close:'Luk',
   copied:'Kopieret',saved:'Gemt',empty:'Alt på dette niveau er tjekket — tak!',nothing:'Du har ikke tjekket noget endnu.',needName:'Skriv dit navn først',
-  two:'Hver linje tjekkes af to personer.',speak:'Hør',lang:'Sprog',loading:'Henter…'},
+  two:'Hver linje tjekkes af to personer.',speak:'Hør',lang:'Sprog',loading:'Henter…',
+  saveSend:'Gem og send',handBtn:'Fortsæt, hvor en anden slap (åbn fil)',handHow:'Har en anden tjekket fx 100 ord? Gem filen, du fik fra vedkommende, skriv dit navn, tryk her og vælg filen — de tjekkede ord springes over. Vil du give videre selv: “Gem og send” → “Del”.',handOk:'Indlæst: # svar. Du fortsætter efter dem.',handBad:'Filen kan ikke bruges her.',handTip:'Du kan give filen videre til en anden, som fortsætter, hvor du slap.',others:'andre',
+  homeT:'Læg siden på hjemmeskærmen',homeI:'iPhone (Safari): Del → «Føj til hjemmeskærm». Android (Chrome): menu ⋮ → «Føj til startskærm». Gør det, før du begynder: ikonet på hjemmeskærmen gemmer sine svar for sig. Er du allerede i gang, så hent din fil først og åbn den fra ikonet.'},
  en:{title:'Language check',intro:'Thanks for helping! You don\'t need to learn anything — just tell us whether the English sounds right (American English). Everything was written by an AI and has not been checked by a native speaker yet.',
   name:'Your name',namePh:'e.g. Mike',level:'Level',kind:'What do you want to check?',start:'Start',cont:'Continue',send:'Send your answers',
   q:'Does this sound natural in American English?',ok:'Correct',bad:'Unnatural',fix:'Fix',yours:'Your version',comment:'Comment (optional)',why:'What\'s wrong? (optional)',
   save:'Save & next',skip:'Skip',back:'Previous',gloss:'',done:'checked',of:'of',
-  k:{all:'All',w:'Words',s:'Sentences',d:'Dialogues',t:'Texts',g:'Grammar'},kl:{w:'Word',s:'Sentence',d:'Dialogue',t:'Text',g:'Grammar'},word:'word',
+  k:{all:'All',w:'Words',s:'Sentences',d:'Dialogues',t:'Texts',g:'Grammar',r:'Rules'},kl:{w:'Word',s:'Sentence',d:'Dialogue',t:'Text',g:'Grammar',r:'Rule (is the explanation right?)'},word:'word',
   tags:['Grammar','Word choice','Spelling','Pronunciation','Not US English'],
   sendT:'Send your answers',sendI:'Your answers are stored on this device only. Send the file to the person who asked you to help.',file:'Download file',share:'Share',copy:'Copy',close:'Close',
   copied:'Copied',saved:'Saved',empty:'Everything on this level is checked — thank you!',nothing:'You haven\'t checked anything yet.',needName:'Please enter your name first',
-  two:'Every line is checked by two people.',speak:'Listen',lang:'Language',loading:'Loading…'}};
+  two:'Every line is checked by two people.',speak:'Listen',lang:'Language',loading:'Loading…',
+  saveSend:'Save & send',handBtn:'Continue where someone else stopped (open file)',handHow:'Someone already checked, say, 100 words? Save the file they sent you, write your name, tap here and choose the file — checked words are skipped. To pass it on yourself: “Save & send” → “Share”.',handOk:'Loaded: # answers. You continue after them.',handBad:'This file can’t be used here.',handTip:'You can pass the file on to someone else, who continues where you stopped.',others:'others',
+  homeT:'Add this page to your Home Screen',homeI:'iPhone (Safari): Share → “Add to Home Screen”. Android (Chrome): menu ⋮ → “Add to Home screen”. Do it before you start: the Home Screen icon keeps its own answers. Already started? Download your file first and open it from the icon.'}};
 const LVS=['A1','A2','B1','B2','C1','C2'],KEY='nightlex-check-v1';
 const IC={x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
  ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
@@ -122,9 +127,17 @@ function el(tag,attrs,...kids){const e=document.createElement(tag);for(const k i
   kids.flat().forEach(c=>{if(c!=null)e.append(c.nodeType?c:document.createTextNode(String(c)))});return e}
 function toast(t){const e=$('toast');e.textContent=t;e.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>e.classList.remove('on'),1600)}
 function res(){return ST.res[ST.lang]||(ST.res[ST.lang]={})}
+// 18.11.2026 (прохання автора): тестувальник може передати файл іншому — той відкриває його й продовжує з місця, де перший зупинився.
+// Чужі відповіді лише пропускаються в черзі (ST.other[мова][id]=рівень); у власний файл вони не потрапляють.
+function oth(){ST.other=ST.other||{};return ST.other[ST.lang]||(ST.other[ST.lang]={})}
+function handIn(file){const t=T(),r=new FileReader();r.onload=()=>{try{const p=JSON.parse(String(r.result));if(!p||p.app!=='nightlex-check'||!p.items||p.lang!==ST.lang)throw 0;const O=oth(),R=res();let n=0;
+    for(const id in p.items){if(R[id]&&R[id].st!=='skip')continue;if(!O[id])n++;O[id]=String(p.items[id].lv||'')}save();ITEMS=null;toast(t.handOk.replace('#',n));startScreen()}catch(e){toast(t.handBad)}};r.readAsText(file)}
 async function getIdx(){if(IDX)return IDX;try{IDX=await (await fetch('check/index.json',{cache:'no-cache'})).json()}catch(e){IDX={}}return IDX}
 async function getItems(lang,lv){const r=await fetch(`check/${lang}_${lv}.json`);if(!r.ok)throw new Error(r.status);return r.json()}
-function setDock(nodes){const d=$('dock'),i=$('dockIn');i.replaceChildren(...(nodes||[]));d.hidden=!nodes||!nodes.length}
+function setDock(nodes){const d=$('dock'),i=$('dockIn');i.replaceChildren(...(nodes||[]));d.hidden=!nodes||!nodes.length;dockPad()}
+// 18.11.2026 (знімок автора): нижні кнопки закривали вміст — відступ знизу дорівнює справжній висоті панелі кнопок (їх буває 1–3)
+function dockPad(){try{const d=$('dock'),m=$('m');const h=d.hidden?0:d.getBoundingClientRect().height;m.style.paddingBottom=(h?h+20:24)+'px'}catch(e){}}
+window.addEventListener('resize',dockPad);
 
 /* ---------- старт: мова, ім'я, рівень, що перевіряти ---------- */
 async function startScreen(){CUR=null;HIST=[];document.documentElement.lang=ST.lang;const t=T(),m=$('m'),idx=await getIdx(),R=res();
@@ -136,28 +149,33 @@ async function startScreen(){CUR=null;HIST=[];document.documentElement.lang=ST.l
     el('div',{class:'mut sm'},'Nightlex'),el('h1',{},t.title),el('p',{},t.intro),el('p',{class:'mut sm'},t.two),
     el('div',{class:'sec'},t.lang),el('div',{class:'chips'},...[['da','Dansk'],['en','English (US)']].map(([k,n])=>el('button',{class:'chip'+(ST.lang===k?' on':''),onclick:()=>{ST.lang=k;ITEMS=null;save();startScreen()}},n))),
     el('div',{class:'sec'},t.name),name,
+    // 18.11.2026: «продовжити за іншим» — великою кнопкою одразу під ім'ям (унизу її не помічали)
+    el('button',{class:'hand',onclick:()=>$('handF').click()},el('span',{class:'hi'},'📂'),el('span',{},t.handBtn)),el('p',{class:'mut sm',style:'margin:6px 2px 0'},t.handHow),el('input',{type:'file',id:'handF',accept:'.txt,.json,text/plain,application/json',hidden:true,onchange:e=>{const f=e.target.files&&e.target.files[0];if(f)handIn(f)}}),
     el('div',{class:'sec'},t.level),el('div',{class:'lv'},...LVS.map(lv=>{const c=cnt(lv).all||0,d=doneLv(lv);
-      return el('button',{class:'lvb'+(ST.lv===lv?' on':''),onclick:()=>{ST.lv=lv;ITEMS=null;save();startScreen()}},el('b',{},lv),el('small',{},`${d} / ${c}`),el('div',{class:'bar'},el('i',{style:`width:${c?Math.min(100,d/c*100):0}%`})))})),
-    el('div',{class:'sec'},t.kind),el('div',{class:'chips'},...['all','w','s','d','t','g'].map(k=>{const c=k==='all'?cnt(ST.lv).all:cnt(ST.lv)[k];if(k!=='all'&&!c)return null;
-      return el('button',{class:'chip'+(ST.kind===k?' on':''),onclick:()=>{ST.kind=k;save();startScreen()}},t.k[k],el('small',{},String(c||0)))})));
+      const o=Object.values(oth()).filter(x=>x===lv).length;return el('button',{class:'lvb'+(ST.lv===lv?' on':''),onclick:()=>{ST.lv=lv;ITEMS=null;save();startScreen()}},el('b',{},lv),el('small',{},`${d}${o?' + '+o+' '+t.others:''} / ${c}`),el('div',{class:'bar'},el('i',{style:`width:${c?Math.min(100,d/c*100):0}%`})))})),
+    el('div',{class:'sec'},t.kind),el('div',{class:'chips'},...['all','w','s','d','t','g','r'].map(k=>{const c=k==='all'?cnt(ST.lv).all:cnt(ST.lv)[k];if(k!=='all'&&!c)return null;
+      return el('button',{class:'chip'+(ST.kind===k?' on':''),onclick:()=>{ST.kind=k;save();startScreen()}},t.k[k],el('small',{},String(c||0)))})),
+    el('details',{class:'mut sm',style:'margin-top:14px'},el('summary',{style:'cursor:pointer;font-weight:600'},t.homeT),el('p',{},t.homeI)));
   const go=el('button',{class:'btn',onclick:()=>{if(!ST.name){toast(t.needName);$('nm').focus();return}review()}},doneLv(ST.lv)?t.cont:t.start,el('span',{html:IC.arr,style:'display:flex;width:20px'}));
   const snd=el('button',{class:'btn ghost',onclick:sendSheet},`${t.send} (${total})`);
   setDock(total?[go,snd]:[go])}
 
 /* ---------- перевірка ---------- */
 function queue(){const R=res();return ITEMS.filter(i=>(ST.kind==='all'||i.k===ST.kind))}
-function nextItem(){const R=res(),q=queue();return q.find(i=>!R[i.id])||q.find(i=>R[i.id]&&R[i.id].st==='skip')||null}
+function nextItem(){const R=res(),O=oth(),q=queue();return q.find(i=>!R[i.id]&&!O[i.id])||q.find(i=>R[i.id]&&R[i.id].st==='skip')||null}
 async function review(it){const t=T(),m=$('m');
   if(!ITEMS){m.replaceChildren(el('p',{class:'mut center'},t.loading));setDock([]);try{ITEMS=await getItems(ST.lang,ST.lv)}catch(e){ITEMS=[];toast('Error '+e.message)}}
   CUR=it||nextItem();PICK=null;
   if(!CUR){m.replaceChildren(el('div',{class:'center'},el('h1',{},'✓'),el('p',{},t.empty)));setDock([el('button',{class:'btn',onclick:startScreen},t.close)]);return}
-  const R=res(),q=queue(),done=q.filter(i=>R[i.id]&&R[i.id].st!=='skip').length,prev=R[CUR.id];
+  const R=res(),q=queue(),O_=oth(),done=q.filter(i=>(R[i.id]&&R[i.id].st!=='skip')||O_[i.id]).length,prev=R[CUR.id];
   PICK=prev&&prev.st!=='skip'?{st:prev.st,fix:prev.fix||'',note:prev.note||'',tags:(prev.tags||[]).slice()}:null;
   const top=el('div',{class:'top'},el('button',{class:'ic','aria-label':t.close,html:IC.x,onclick:startScreen}),
-    el('div',{class:'prog'},el('div',{class:'h'},el('span',{},`${t.title} · ${ST.lv} · ${t.k[ST.kind]}`),el('span',{},`${done} / ${q.length}`)),el('div',{class:'bar'},el('i',{style:`width:${q.length?done/q.length*100:0}%`}))));
-  const lab=t.kl[CUR.k]+(CUR.k==='s'&&CUR.w?` · ${t.word.toUpperCase()}: ${CUR.w}`:CUR.k==='t'||CUR.k==='d'?` · ${CUR.src||''}`:'')+(CUR.k==='d'&&CUR.who&&CUR.who!=='→'?` · ${CUR.who}`:'');
+    el('div',{class:'prog'},el('div',{class:'h'},el('span',{},`${t.title} · ${ST.lv} · ${t.k[ST.kind]}`),el('span',{},`${done} / ${q.length}`)),el('div',{class:'bar'},el('i',{style:`width:${q.length?done/q.length*100:0}%`}))),
+    // 18.11.2026 (прохання автора): зберегти файл можна вже після першої перевіреної відповіді — кнопка прямо під час перевірки
+    (()=>{let n=0;try{n=Object.keys(payload().items).length}catch(e){}return n?el('button',{class:'ic','aria-label':t.send,title:t.send,html:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>',onclick:sendSheet}):null})());
+  const lab=t.kl[CUR.k]+(CUR.k==='s'&&CUR.w?` · ${t.word.toUpperCase()}: ${CUR.w}`:CUR.k==='t'||CUR.k==='d'||CUR.k==='r'?` · ${CUR.src||''}`:'')+(CUR.k==='d'&&CUR.who&&CUR.who!=='→'?` · ${CUR.who}`:'');
   const x=el('p',{class:'x'+(CUR.k==='s'?' hl':''),id:'x'});markText(x,CUR.x,CUR.k==='s'?CUR.w:'');
-  const pic=CUR.p?el('div',{class:'pic'},el('img',{src:`img/${CUR.p}.svg`,alt:'',width:62,height:62,onerror:e=>e.target.parentElement.remove()})):null;
+  const pic=(CUR.p||CUR.o)?el('div',{class:'pic'},el('img',{src:CUR.p?`img/${CUR.p}.svg`:`om/${CUR.o}.svg`,alt:'',width:62,height:62,onerror:e=>e.target.parentElement.remove()})):null;
   const gl=el('div',{class:'gl'},el('button',{class:'ic','aria-label':t.speak,html:IC.spk,onclick:()=>say(CUR.x)}),CUR.g&&t.gloss?el('span',{},`${t.gloss}: `,el('b',{},CUR.g)):null);
   const card=el('div',{class:'box'},el('div',{class:'item'},pic,el('div',{style:'min-width:0'},el('div',{class:'lab'},lab),x)),gl);
   const chs=el('div',{class:'choices',role:'group'},...[['ok',IC.ok],['bad',IC.x],['fix',IC.fix]].map(([k,ic])=>el('button',{class:`ch ${k}`+(PICK&&PICK.st===k?' on':''),'aria-pressed':String(!!(PICK&&PICK.st===k)),onclick:()=>choose(k)},el('span',{html:ic,style:'display:flex'}),t[k])));
@@ -165,7 +183,8 @@ async function review(it){const t=T(),m=$('m');
   const links=el('div',{class:'links'},HIST.length?el('button',{class:'lk',onclick:()=>{const p=HIST.pop();review(p)}},'← '+t.back):el('span'),el('button',{class:'lk',onclick:()=>{store('skip');go()}},t.skip+' →'));
   m.replaceChildren(top,el('div',{class:'center'},el('p',{class:'q'},t.q),card,chs,det,links));
   renderDet();
-  setDock([el('button',{class:'btn',id:'saveBtn',disabled:!PICK,onclick:()=>{if(!PICK)return;store(PICK.st);go()}},t.save,el('span',{html:IC.arr,style:'display:flex;width:20px'}))])}
+  let nAns=0;try{nAns=Object.keys(payload().items).length}catch(e){}
+  setDock([el('button',{class:'btn',id:'saveBtn',disabled:!PICK&&!nAns,onclick:()=>{if(!PICK)return sendSheet();store(PICK.st);go()}},el('span',{id:'saveLbl'},PICK?t.save:t.saveSend),el('span',{html:IC.arr,style:'display:flex;width:20px'}))])}
 // виділяємо слово в реченні (без артикля / at / to), решту — як текст (жодного HTML з даних)
 function markText(node,text,word){const w=String(word||'').replace(/^(en|et|at|to|a|an|the)\s+/i,'').trim();
   if(!w){node.textContent=text;return}const i=text.toLowerCase().indexOf(w.toLowerCase().slice(0,Math.max(3,w.length-2)));
@@ -174,7 +193,7 @@ function markText(node,text,word){const w=String(word||'').replace(/^(en|et|at|t
 function choose(k){const t=T();if(k==='ok'){PICK={st:'ok'};store('ok');go();return}
   PICK={st:k,fix:PICK&&PICK.fix||(k==='fix'?CUR.x:''),note:PICK&&PICK.note||'',tags:PICK&&PICK.tags||[]};
   document.querySelectorAll('.ch').forEach(b=>{const on=b.classList.contains(k);b.classList.toggle('on',on);b.setAttribute('aria-pressed',String(on))});
-  renderDet();$('saveBtn').disabled=false;const f=$('fixIn')||$('noteIn');if(f){f.focus();if(f.id==='fixIn')f.setSelectionRange(f.value.length,f.value.length)}}
+  renderDet();$('saveBtn').disabled=false;{const l=$('saveLbl');if(l)l.textContent=t.save}const f=$('fixIn')||$('noteIn');if(f){f.focus();if(f.id==='fixIn')f.setSelectionRange(f.value.length,f.value.length)}}
 function renderDet(){const t=T(),d=$('det');if(!d)return;d.replaceChildren();if(!PICK||PICK.st==='ok')return;
   const box=el('div',{class:'box det'});
   if(PICK.st==='fix')box.append(el('label',{for:'fixIn'},t.yours),el('input',{class:'t',id:'fixIn',value:PICK.fix,autocomplete:'off',autocapitalize:'off',spellcheck:'false',oninput:e=>PICK.fix=e.target.value}));
@@ -192,16 +211,17 @@ document.addEventListener('keydown',e=>{if(!CUR||/input|textarea/i.test((e.targe
 
 /* ---------- надіслати: файл / поділитися / копіювати ---------- */
 function payload(){const R=res(),items={};for(const id in R)if(R[id].st!=='skip')items[id]=R[id];return {app:'nightlex-check',v:1,lang:ST.lang,name:ST.name||'?',date:new Date().toISOString().slice(0,10),items}}
-function fname(p){return `nightlex-check-${p.lang}-${String(p.name).replace(/[^\p{L}\p{N}]+/gu,'-').slice(0,30)}-${p.date}.json`}
+function fname(p){return `nightlex-check-${p.lang}-${String(p.name).replace(/[^\p{L}\p{N}]+/gu,'-').slice(0,30)}-${p.date}.txt`}
 function sendSheet(){const t=T(),p=payload(),v=Object.values(p.items),n=k=>v.filter(r=>r.st===k).length;
   if(!v.length){toast(t.nothing);return}
   const txt=JSON.stringify(p);
   $('m').replaceChildren(el('div',{class:'top'},el('button',{class:'ic','aria-label':t.close,html:IC.x,onclick:startScreen}),el('b',{},t.sendT)),
     el('div',{class:'center'},el('div',{class:'stat'},el('div',{},el('b',{},String(n('ok'))),el('small',{},t.ok)),el('div',{},el('b',{},String(n('bad'))),el('small',{},t.bad)),el('div',{},el('b',{},String(n('fix'))),el('small',{},t.fix))),
-      el('p',{class:'mut'},t.sendI)));
-  const file=new File([txt],fname(p),{type:'application/json'});
+      el('p',{class:'mut'},t.sendI),el('p',{class:'mut sm'},t.handTip)));
+  // 18.11.2026: .txt і без заголовка — інакше Messenger/WhatsApp надсилали лише текст «Nightlex — …» без файлу
+  const file=new File([txt],fname(p),{type:'text/plain'});
   const btns=[el('button',{class:'btn',onclick:()=>{const a=el('a',{href:URL.createObjectURL(file),download:file.name});document.body.append(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500);toast(t.saved)}},t.file)];
-  if(navigator.canShare&&navigator.canShare({files:[file]}))btns.push(el('button',{class:'btn ghost',onclick:()=>navigator.share({files:[file],title:'Nightlex — '+t.title}).catch(()=>{})},t.share));
+  if(navigator.canShare&&navigator.canShare({files:[file]}))btns.push(el('button',{class:'btn ghost',onclick:()=>navigator.share({files:[file]}).catch(()=>{})},t.share));
   btns.push(el('button',{class:'btn ghost',onclick:()=>{(navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>toast(t.copied)).catch(()=>{})}},t.copy));
   setDock(btns)}
 // пряме посилання за мовою: check.html?lang=da — для данців, ?lang=en — для американців
